@@ -1,17 +1,12 @@
 package com.example.instantgallery;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.view.View;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
-    RecyclerView recyclerView;
     private final String image_titles[] = {
             "Img1",
             "Img2",
@@ -27,7 +22,6 @@ public class MainActivity extends AppCompatActivity
 //            "Img12",
 //            "Img13",
     };
-
     private final Integer image_ids[] = {
             R.drawable.img1,
             R.drawable.img2,
@@ -43,7 +37,7 @@ public class MainActivity extends AppCompatActivity
 //            R.drawable.img12,
 //            R.drawable.img13,
     };
-
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,28 +45,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.Gallery);
-        recyclerView.setHasFixedSize(true);
-
-        final int columns = 5;
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), columns);
-        recyclerView.setLayoutManager(layoutManager);
-        ArrayList<CreateList> createLists = prepareData();
-        MyAdapter adaptor = new MyAdapter(getApplicationContext(), createLists);
-        recyclerView.setAdapter(adaptor);
 
     }
 
-    private ArrayList<CreateList> prepareData()
-    {
-        ArrayList<CreateList> theimage = new ArrayList<>();
-        for (int i = 0; i < image_titles.length; i++)
-        {
-            CreateList createList = new CreateList();
-            createList.setImage_title(image_titles[i]);
-            createList.setImage_ID(image_ids[i]);
-            theimage.add(createList);
-        }
-        return theimage;
-    }
 }
