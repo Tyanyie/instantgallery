@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
@@ -13,6 +14,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.instantgallery.R.layout.activity_main;
 
 
 public class MainActivity extends AppCompatActivity
@@ -37,11 +40,18 @@ public class MainActivity extends AppCompatActivity
                     R.drawable.a8,
                     R.drawable.a9,
             };
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(activity_main);
         imageView = (ImageView)findViewById(R.id.iv_image);
 
     }
@@ -84,5 +94,6 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onTouchEvent(event);
     }
+
 
 }
