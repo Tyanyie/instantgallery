@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,9 @@ public class MainActivity extends AppCompatActivity
     private float startX, endX;
     private float distance = 100f;
 
-    private ImageView imageView;
+    public boolean nightmode = false;
 
+    private ImageView imageView;
 
     private int currentPosition = 0;
     private int[]pictures =
@@ -95,5 +100,23 @@ public class MainActivity extends AppCompatActivity
         return super.onTouchEvent(event);
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nightMode:
+                if (nightmode == false)
+                {
+                    imageView.setBackgroundColor(Color.argb
+                            (255, 55, 55, 55));
+                    nightmode = true;
+                }
+                else {
+                    imageView.setBackgroundColor(Color.argb
+                            (255, 255, 255, 255));
+                    nightmode = false;
+                }
+                return true;
+        }
+        return true;
+    }
 }
