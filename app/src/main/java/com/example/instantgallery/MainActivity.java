@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private float distance = 100f;
 
     public boolean nightmode = false;
+    private int picCount = 1; // Prevent access to array indexes as pics are deleted
 
     private ImageView imageView;
 
@@ -76,19 +80,20 @@ public class MainActivity extends AppCompatActivity
             case MotionEvent.ACTION_UP:
                 endX = event.getRawX();
 
+                if (picCount != pictures.length) { // Added for delete functionality
                 if ((endX - startX) >= distance)
                 {
                     //last picture
                     currentPosition --;
                     if (currentPosition < 0)
                     {
-                        currentPosition = pictures.length-1;
+                        currentPosition = pictures.length-picCount; // picCount replaced 1
                     }
                 }
                 else if (startX - endX >= distance)
                 {
                     currentPosition ++;
-                    if (currentPosition > pictures.length-1)
+                    if (currentPosition > pictures.length-picCount) // picCount replaced 1
                     {
                         //if overflow then reset to 0
                         currentPosition = 0;
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 imageView.setImageResource(pictures[currentPosition]);
                 Log.i(TAG,"Action Up");
+                }
         }
         return super.onTouchEvent(event);
     }
@@ -103,6 +109,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.deletePic:
+                if (picCount == pictures.length) {
+                    imageView.setImageResource(0);
+                    return true;
+                }
+                // If deleting last image
+                if (currentPosition == pictures.length-picCount) {
+                    imageView.setImageResource(0);
+                    picCount++;
+                    return true;
+                }
+                // If deleting an image (that is not last)
+                for (int i = currentPosition; i <= pictures.length-picCount; i++)
+                {
+                    if (i != pictures.length-picCount) {
+                        pictures[i] = pictures[i + 1];
+                        imageView.setImageResource(pictures[currentPosition]);
+                    }
+                }
+                picCount++;
+                return true;
             case R.id.nightMode:
                 if (nightmode == false)
                 {
