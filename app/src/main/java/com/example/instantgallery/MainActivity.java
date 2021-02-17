@@ -1,13 +1,22 @@
 package com.example.instantgallery;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -27,44 +36,96 @@ import static com.example.instantgallery.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity
 {
+    //Tianyi Zhou's variables
     public static final String TAG = "My Debug";
-    private float startX, endX;
-    private float distance = 100f;
+    private ImageView imageView;
+    private GridView gridView;
+    private Tianyi_Adapter myAdapter;
 
+    private List<String> photoList = new ArrayList<>();
+
+
+/*   ---------------------------------------------------------------------------- */
+
+    //Robert's variables
     public boolean nightmode = false;
     private int picCount = 1; // Prevent access to array indexes as pics are deleted
 
-    private ImageView imageView;
-
-    private int currentPosition = 0;
-    private int[]pictures =
-            {
-                    R.drawable.a1,
-                    R.drawable.a2,
-                    R.drawable.a3,
-                    R.drawable.a4,
-                    R.drawable.a5,
-                    R.drawable.a6,
-                    R.drawable.a7,
-                    R.drawable.a8,
-                    R.drawable.a9,
-            };
-
+    //Robert's
     @Override
     public boolean onCreateOptionsMenu (Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
 
+    //everyone shared area
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
-        imageView = (ImageView)findViewById(R.id.iv_image);
+
+        //Tianyi's
+        Runnable runnable = new Runnable()
+        {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void run()
+            {
+                getSystemPhoto();
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
+        gridView = (GridView)findViewById(R.id.gv_gallery_overview);
+        myAdapter = new Tianyi_Adapter(getBaseContext(), photoList);
+        gridView.setAdapter(myAdapter);
+
+        /*----------------------------------------------------------------------*/
 
     }
 
+    //Tianyi's            request read file permission
+    private void requestPermissions()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            Log.i(TAG, "no READ_EXTERNAL_STORAGE" + Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            Log.i(TAG, "no Write_EXTERNAL_STORAGE" + Manifest.permission.READ_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void getSystemPhoto()
+    {
+        ContentResolver contentResolver = getContentResolver();
+        String [] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+        Cursor imageCursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null);
+
+        if (imageCursor != null)
+        {
+            if (imageCursor.getCount() > 0)
+            {
+                while (imageCursor.moveToNext())
+                {
+                    String path = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    Log.i(TAG,"Paths: " + path);
+                    photoList.add(path);
+                }
+            }
+        }
+
+    }
+
+    //Tianyi's area, debugging
+ /*
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -105,7 +166,15 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onTouchEvent(event);
     }
+*/
 
+
+    //Robert's
+    /*
+    * Todo
+    *  Hi Robert, you might need to adjust your code with our approach to
+    *  accessing photos on the user's phone rather than read photos from drawables
+    * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
