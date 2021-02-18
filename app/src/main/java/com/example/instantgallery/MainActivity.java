@@ -2,37 +2,19 @@ package com.example.instantgallery;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.instantgallery.R.layout.activity_main;
-import static com.example.instantgallery.R.layout.tianyi_grid_item;
 
 
 public class MainActivity extends AppCompatActivity
@@ -41,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "My Debug";
     private GridView gridView;
     private Tianyi_Adapter myAdapter;
+    private TianyiUtils myUtils;
 
     /*   ---------------------------------------------------------------------------- */
     //Robert's variables
@@ -67,8 +50,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(activity_main);
 
         //Tianyi's
-        requestPermissions();
-        getSystemPhoto();
+        myUtils = new TianyiUtils();
+        myUtils.requestPermissions(this);
+
+        myUtils.getSystemPhoto(this, this);
 
         gridView = (GridView) findViewById(R.id.gv_gallery_overview);
         myAdapter = new Tianyi_Adapter(getBaseContext(), photoList);
@@ -78,44 +63,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //Tianyi's            request read file permission
-    private void requestPermissions()
+    public List<String> getPhotoList()
     {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            Log.i(TAG, "no READ_EXTERNAL_STORAGE" + Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            Log.i(TAG, "no Write_EXTERNAL_STORAGE" + Manifest.permission.READ_EXTERNAL_STORAGE);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
+        return photoList;
     }
-
-    //Tianyi's              get photos from device storage
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void getSystemPhoto()
-    {
-        ContentResolver contentResolver = getContentResolver();
-        String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
-        Cursor imageCursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null);
-
-        if (imageCursor != null)
-        {
-            if (imageCursor.getCount() > 0)
-            {
-                while (imageCursor.moveToNext())
-                {
-                    String path = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
-                    Log.i(TAG, "Paths: " + path);
-                    photoList.add(path);
-                }
-            }
-        }
-
-    }
-
     //Tianyi's area, debugging
  /*
     @Override
