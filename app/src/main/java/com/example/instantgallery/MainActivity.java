@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.instantgallery.tianyi_class.TianyiUtils;
+import com.example.instantgallery.tianyi_class.Tianyi_Adapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +33,8 @@ public class MainActivity extends AppCompatActivity
     public boolean nightmode = false;
     private ImageView imageView;
 
-    private List<String> photoList = new ArrayList<>();
-    private int picCount = 1; // Prevent access to array indexes as pics are deleted
+    private final List<String> photoList = new ArrayList<>();
+    private final int picCount = 1; // Prevent access to array indexes as pics are deleted
 
     //Robert's
     @Override
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         myUtils.getSystemPhoto(this, this);
 
-        gridView = (GridView) findViewById(R.id.gv_gallery_overview);
+        gridView = findViewById(R.id.gv_gallery_overview);
         myAdapter = new Tianyi_Adapter(getBaseContext(), photoList);
         gridView.setAdapter(myAdapter);
 
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity
 
              */
             case R.id.nightMode:
-                if (nightmode == false)
+                if (!nightmode)
                 {
                     gridView.setBackgroundColor(Color.argb
                             (255, 55, 55, 55));

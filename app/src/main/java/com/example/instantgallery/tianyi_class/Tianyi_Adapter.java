@@ -1,4 +1,4 @@
-package com.example.instantgallery;
+package com.example.instantgallery.tianyi_class;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
+import com.example.instantgallery.R;
 
 import java.io.File;
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.List;
 public class Tianyi_Adapter extends BaseAdapter
 {
     public static final String TAG = "My";
-    private Context mContext;
-    private List<String> photoPathList;
+    private final Context mContext;
+    private final List<String> photoPathList;
     private ViewHolder myViewHolder;
 
     public Tianyi_Adapter(Context context, List<String> photoPathList)
@@ -88,13 +89,10 @@ public class Tianyi_Adapter extends BaseAdapter
         {
             myViewHolder = new ViewHolder();
             convertView = View.inflate(mContext, R.layout.tianyi_grid_item, null);
-            myViewHolder.myImageView = (Tianyi_ImageView) convertView.findViewById(R.id.iv_grid_item);
+            myViewHolder.myImageView = convertView.findViewById(R.id.iv_grid_item);
             //convertView.setTag(myViewHolder);
         }
-        else
-        {
-//            myViewHolder = (ViewHolder)convertView.getTag();
-        }
+
         if (f.exists())
         {
             //myViewHolder.myImageView.setImageURI(Uri.fromFile(f));

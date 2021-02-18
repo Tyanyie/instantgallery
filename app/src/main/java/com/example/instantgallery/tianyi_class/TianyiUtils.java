@@ -1,4 +1,4 @@
-package com.example.instantgallery;
+package com.example.instantgallery.tianyi_class;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -13,6 +13,8 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.instantgallery.MainActivity;
 
 public class TianyiUtils
 {
@@ -53,6 +55,7 @@ public class TianyiUtils
                 }
             }
         }
-
+        assert imageCursor != null;
+        imageCursor.close();
     }
 }
