@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity
 {
     //Tianyi Zhou's variables
     public static final String TAG = "My Debug";
-    //Robert's variables
-    public boolean nightmode = false;
-    private ImageView imageView;
     private GridView gridView;
     private Tianyi_Adapter myAdapter;
 
-
     /*   ---------------------------------------------------------------------------- */
+    //Robert's variables
+    public boolean nightmode = false;
+    private ImageView imageView;
+
     private List<String> photoList = new ArrayList<>();
     private int picCount = 1; // Prevent access to array indexes as pics are deleted
 
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    //Tianyi's              get photos from device storage
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getSystemPhoto()
     {
@@ -161,17 +162,17 @@ public class MainActivity extends AppCompatActivity
 
 
     //Robert's
-    /*
-     * Todo
-     *  Hi Robert, you might need to adjust your code with our approach to
-     *  accessing photos on the user's phone rather than read photos from drawables
-     * */
-    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())
         {
+            /*
+             * Todo
+             *  Hi Robert, you might need to adjust your code with our approach to
+             *  accessing photos on the user's phone rather than read photos from drawables
+             * */
+            /*
             case R.id.deletePic:
                 if (picCount == pictures.length)
                 {
@@ -196,21 +197,25 @@ public class MainActivity extends AppCompatActivity
                 }
                 picCount++;
                 return true;
+
+             */
             case R.id.nightMode:
                 if (nightmode == false)
                 {
-                    imageView.setBackgroundColor(Color.argb
+                    gridView.setBackgroundColor(Color.argb
                             (255, 55, 55, 55));
                     nightmode = true;
                 }
                 else
                 {
-                    imageView.setBackgroundColor(Color.argb
+                    gridView.setBackgroundColor(Color.argb
                             (255, 255, 255, 255));
                     nightmode = false;
                 }
-                return true;
+                break;
+                //return true;
+
         }
         return true;
-    }*/
+    }
 }
