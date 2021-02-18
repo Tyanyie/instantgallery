@@ -14,7 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class TianyiUtils extends MainActivity
+public class TianyiUtils
 {
 
     //Tianyi's            request read file permission
