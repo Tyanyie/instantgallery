@@ -111,6 +111,7 @@ public class Tianyi_Adapter extends BaseAdapter
     public class ViewHolder
     {
         Tianyi_ImageView myImageView;
+
     }
 
 }

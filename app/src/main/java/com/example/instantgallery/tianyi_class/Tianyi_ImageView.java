@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
-public class Tianyi_ImageView extends ImageView
+public class Tianyi_ImageView extends androidx.appcompat.widget.AppCompatImageView
 {
     public Tianyi_ImageView(Context context, @Nullable AttributeSet attrs)
     {
@@ -18,4 +18,5 @@ public class Tianyi_ImageView extends ImageView
     {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     }
+
 }
