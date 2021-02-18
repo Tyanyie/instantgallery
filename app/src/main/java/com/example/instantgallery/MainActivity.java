@@ -32,33 +32,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.instantgallery.R.layout.activity_main;
+import static com.example.instantgallery.R.layout.tianyi_grid_item;
 
 
 public class MainActivity extends AppCompatActivity
 {
     //Tianyi Zhou's variables
     public static final String TAG = "My Debug";
+    //Robert's variables
+    public boolean nightmode = false;
     private ImageView imageView;
     private GridView gridView;
     private Tianyi_Adapter myAdapter;
 
+
+    /*   ---------------------------------------------------------------------------- */
     private List<String> photoList = new ArrayList<>();
-
-
-/*   ---------------------------------------------------------------------------- */
-
-    //Robert's variables
-    public boolean nightmode = false;
     private int picCount = 1; // Prevent access to array indexes as pics are deleted
 
     //Robert's
     @Override
-    public boolean onCreateOptionsMenu (Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
 
     //everyone shared area
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -66,20 +67,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(activity_main);
 
         //Tianyi's
-        Runnable runnable = new Runnable()
-        {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void run()
-            {
-                getSystemPhoto();
-            }
-        };
+        requestPermissions();
+        getSystemPhoto();
 
-        Thread thread = new Thread(runnable);
-        thread.start();
-
-        gridView = (GridView)findViewById(R.id.gv_gallery_overview);
+        gridView = (GridView) findViewById(R.id.gv_gallery_overview);
         myAdapter = new Tianyi_Adapter(getBaseContext(), photoList);
         gridView.setAdapter(myAdapter);
 
@@ -106,7 +97,7 @@ public class MainActivity extends AppCompatActivity
     public void getSystemPhoto()
     {
         ContentResolver contentResolver = getContentResolver();
-        String [] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+        String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
         Cursor imageCursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null);
 
         if (imageCursor != null)
@@ -116,7 +107,7 @@ public class MainActivity extends AppCompatActivity
                 while (imageCursor.moveToNext())
                 {
                     String path = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
-                    Log.i(TAG,"Paths: " + path);
+                    Log.i(TAG, "Paths: " + path);
                     photoList.add(path);
                 }
             }
@@ -171,28 +162,34 @@ public class MainActivity extends AppCompatActivity
 
     //Robert's
     /*
-    * Todo
-    *  Hi Robert, you might need to adjust your code with our approach to
-    *  accessing photos on the user's phone rather than read photos from drawables
-    * */
+     * Todo
+     *  Hi Robert, you might need to adjust your code with our approach to
+     *  accessing photos on the user's phone rather than read photos from drawables
+     * */
+    /*
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case R.id.deletePic:
-                if (picCount == pictures.length) {
+                if (picCount == pictures.length)
+                {
                     imageView.setImageResource(0);
                     return true;
                 }
                 // If deleting last image
-                if (currentPosition == pictures.length-picCount) {
+                if (currentPosition == pictures.length - picCount)
+                {
                     imageView.setImageResource(0);
                     picCount++;
                     return true;
                 }
                 // If deleting an image (that is not last)
-                for (int i = currentPosition; i <= pictures.length-picCount; i++)
+                for (int i = currentPosition; i <= pictures.length - picCount; i++)
                 {
-                    if (i != pictures.length-picCount) {
+                    if (i != pictures.length - picCount)
+                    {
                         pictures[i] = pictures[i + 1];
                         imageView.setImageResource(pictures[currentPosition]);
                     }
@@ -206,7 +203,8 @@ public class MainActivity extends AppCompatActivity
                             (255, 55, 55, 55));
                     nightmode = true;
                 }
-                else {
+                else
+                {
                     imageView.setBackgroundColor(Color.argb
                             (255, 255, 255, 255));
                     nightmode = false;
@@ -214,5 +212,5 @@ public class MainActivity extends AppCompatActivity
                 return true;
         }
         return true;
-    }
+    }*/
 }

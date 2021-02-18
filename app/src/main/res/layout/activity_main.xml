@@ -11,22 +11,19 @@
         android:id="@+id/gv_gallery_overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numColumns="5"
-        />
+        android:numColumns="5" />
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/a1"
-        />
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_image"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/a1" />-->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        >
+        android:orientation="horizontal">
         <!--            <Button-->
         <!--                android:id="@+id/btn_pre"-->
         <!--                android:layout_width="wrap_content"-->
@@ -40,9 +37,6 @@
         <!--                android:text="next"-->
         <!--                />-->
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

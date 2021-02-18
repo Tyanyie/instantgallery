@@ -18,6 +18,7 @@ public class Tianyi_Adapter extends BaseAdapter
     private Context mContext;
     private List<String> photoPathList;
     private ViewHolder myViewHolder;
+
     public Tianyi_Adapter(Context context, List<String> photoPathList)
     {
         this.mContext = context;
@@ -87,7 +88,7 @@ public class Tianyi_Adapter extends BaseAdapter
         {
             myViewHolder = new ViewHolder();
             convertView = View.inflate(mContext, R.layout.tianyi_grid_item, null);
-            myViewHolder.myImageView = (MyImageView)convertView.findViewById(R.id.iv_grid_item);
+            myViewHolder.myImageView = (Tianyi_ImageView) convertView.findViewById(R.id.iv_grid_item);
             //convertView.setTag(myViewHolder);
         }
         else
@@ -111,7 +112,7 @@ public class Tianyi_Adapter extends BaseAdapter
 
     public class ViewHolder
     {
-        MyImageView myImageView;
+        Tianyi_ImageView myImageView;
     }
 
 }
