@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.instantgallery.Bruce_class.CreatePasswordActivity;
+import com.example.instantgallery.Bruce_class.LoadingActivity;
 import com.example.instantgallery.tianyi_class.TianyiUtils;
 import com.example.instantgallery.tianyi_class.Tianyi_Adapter;
 import com.example.instantgallery.tianyi_class.Tianyi_Single_Image_View;
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
+    /*   ---------------------------------------------------------------------------- */
+    //Bruce's variables
+    private boolean login = false;
 
     //everyone shared area
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -62,6 +67,16 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(activity_main);
+        //check if user has logged in
+        /*
+        login = getIntent().getBooleanExtra("login", false);
+        if(!login)
+        {
+            Intent intent = new Intent(getApplicationContext(), LoadingActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        */
 
         //Tianyi's
         myUtils = new TianyiUtils();

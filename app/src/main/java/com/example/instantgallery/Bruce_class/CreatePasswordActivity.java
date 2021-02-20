@@ -50,7 +50,9 @@ public class CreatePasswordActivity extends AppCompatActivity {
                         editor.apply();
 
                         //Enter the app
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("login", true);
                         startActivity(intent);
                         finish();
                     }
