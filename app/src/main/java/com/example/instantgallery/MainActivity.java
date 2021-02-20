@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity
         myAdapter = new Tianyi_Adapter(this, photoList);
         gridView.setAdapter(myAdapter);
 
-        //bitmap = gridView.getDrawingCache();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Intent intent = new Intent(MainActivity.this, Tianyi_Single_Image_View.class);
-
                 startActivity(intent);
+                Log.i(TAG, "In MainActivity onItemClick()");
             }
         });
 
