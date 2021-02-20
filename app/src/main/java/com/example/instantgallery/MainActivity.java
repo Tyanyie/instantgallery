@@ -27,8 +27,12 @@ import static com.example.instantgallery.R.layout.activity_main;
 
 public class MainActivity extends AppCompatActivity
 {
+    //everyone shared variables
+    public static final String TAG = "Tianyi_Debug_Info";
+    public static final String TAG_1 = "Robert_Debug_Info";
+    public static final String TAG_2 = "Bruce_Debug_Info";
+    public static final String TAG_3 = "Ssu_Ting_Debug_Info";
     //Tianyi Zhou's variables
-    public static final String TAG = "My Debug";
     public static final int RESULT_CODE = 3;
     private GridView gridView;
     private Tianyi_Adapter myAdapter;
