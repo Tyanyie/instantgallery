@@ -12,13 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Instantgallery">
-        <activity android:name=".Tianyi_Single_Image_View"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Bruce_class.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Bruce_class.EnterPasswordActivity" />
+        <activity android:name=".Bruce_class.CreatePasswordActivity" />
+        <activity android:name=".Tianyi_Single_Image_View" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 
