@@ -17,7 +17,7 @@ public class Tianyi_Adapter extends BaseAdapter
 {
     public static final String TAG = "My";
     private final Context mContext;
-    private final List<String> photoPathList;
+    List<String> photoPathList;
     private ViewHolder myViewHolder;
 
     public Tianyi_Adapter(Context context, List<String> photoPathList)
@@ -97,6 +97,8 @@ public class Tianyi_Adapter extends BaseAdapter
         {
             //myViewHolder.myImageView.setImageURI(Uri.fromFile(f));
             Glide.with(mContext).load(photoPathList.get(position)).into(myViewHolder.myImageView);
+
+            Log.i(TAG, "f is " + f.getClass().getName() + "type");
         }
         else
         {
