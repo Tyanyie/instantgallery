@@ -3,6 +3,9 @@ package com.example.instantgallery;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -211,8 +214,13 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
                 //return true;
+            case R.id.copy:
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                Intent appIntent = new Intent();
+                ClipData clip = ClipData.newIntent("Intent",appIntent);
 
         }
         return true;
     }
+    //Ssu-Ting's
 }
