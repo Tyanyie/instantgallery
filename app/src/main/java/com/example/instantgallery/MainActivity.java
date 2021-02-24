@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
     }
     /*   ---------------------------------------------------------------------------- */
     //Bruce's variables
-    private boolean login = false;
+    private final boolean login = false;
 
     //everyone shared area
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Intent intent = new Intent(MainActivity.this, Tianyi_Single_Image_View.class);
+                intent.putExtra("image", position);
                 startActivity(intent);
                 Log.i(TAG, "In MainActivity onItemClick()");
             }
