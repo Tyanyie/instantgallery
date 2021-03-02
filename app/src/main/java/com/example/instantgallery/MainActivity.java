@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Intent intent = new Intent(MainActivity.this, Tianyi_Single_Image_View.class);
-                intent.putExtra("image", position);
+                intent.putExtra("image", myAdapter.getPhotoPathById(position));
                 startActivity(intent);
                 Log.i(TAG, "In MainActivity onItemClick()");
             }

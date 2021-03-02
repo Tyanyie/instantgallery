@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.instantgallery.MainActivity;
@@ -17,6 +18,7 @@ import java.net.URI;
 
 public class Tianyi_Single_Image_View extends AppCompatActivity
 {
+    public static final String TAG = "Too";
     Tianyi_ImageView clickedImage;
     Intent intent;
     Tianyi_Adapter tianyi_adapter;
@@ -32,7 +34,7 @@ public class Tianyi_Single_Image_View extends AppCompatActivity
 
         clickedImage = (Tianyi_ImageView) findViewById(R.id.single_image);
         intent = getIntent();
-        int imageId = intent.getIntExtra("image", 0);
+        String imageId = intent.getStringExtra("image");
         /*Todo
         *  1. get photo path  [√]
         *   2. get image resource from photo path
@@ -40,9 +42,10 @@ public class Tianyi_Single_Image_View extends AppCompatActivity
         * */
 //        clickedImage.setImageResource(MainActivity.);
 
-
-
-            clickedImage.setImageURI(tianyi_adapter.uri);
+        Uri uri = Uri.parse(imageId);
+//        Log.v(TAG, "clicked image :" + clickedImage);
+        Log.v(TAG, "URI is :" + uri);
+        clickedImage.setImageURI(uri);
 
 
 

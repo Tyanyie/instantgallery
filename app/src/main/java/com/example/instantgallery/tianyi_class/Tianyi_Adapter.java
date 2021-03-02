@@ -27,6 +27,7 @@ public class Tianyi_Adapter extends BaseAdapter
 
         this.mContext = context;
         this.photoPathList = photoPathList;
+        
     }
 
 
@@ -125,6 +126,11 @@ public class Tianyi_Adapter extends BaseAdapter
         return convertView;
 
 
+    }
+
+    public String getPhotoPathById(int id)
+    {
+        return photoPathList.get(id);
     }
 
     public class ViewHolder
