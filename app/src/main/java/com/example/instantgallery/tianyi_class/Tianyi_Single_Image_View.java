@@ -21,8 +21,6 @@ public class Tianyi_Single_Image_View extends AppCompatActivity
     public static final String TAG = "Too";
     Tianyi_ImageView clickedImage;
     Intent intent;
-    Tianyi_Adapter tianyi_adapter;
-    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,27 +30,16 @@ public class Tianyi_Single_Image_View extends AppCompatActivity
         setContentView(R.layout.tianyi_single_photo_view);
 
 
-        clickedImage = (Tianyi_ImageView) findViewById(R.id.single_image);
+        clickedImage = findViewById(R.id.single_image);
         intent = getIntent();
         String imageId = intent.getStringExtra("image");
-        /*Todo
-        *  1. get photo path  [√]
-        *   2. get image resource from photo path
-        *
-        * */
-//        clickedImage.setImageResource(MainActivity.);
 
         Uri uri = Uri.parse(imageId);
-//        Log.v(TAG, "clicked image :" + clickedImage);
         Log.v(TAG, "URI is :" + uri);
         clickedImage.setImageURI(uri);
 
-
-
-
-
-
-
-
     }
+
+
+
 }

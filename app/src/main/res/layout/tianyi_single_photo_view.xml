@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.example.instantgallery.tianyi_class.Tianyi_ImageView
+
+    android:id="@+id/single_image"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_gravity="center"
+    android:scaleType="centerCrop"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
 
-    <com.example.instantgallery.tianyi_class.Tianyi_ImageView
-
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/single_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-</LinearLayout>
 <!--    android:text="This should be an ImageView which displays the image user clicked on"-->
 
 

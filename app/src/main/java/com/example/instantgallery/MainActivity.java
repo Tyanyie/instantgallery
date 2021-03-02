@@ -108,10 +108,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public int getResId()
-    {
-        return gridView.getId();
-    }
 
     public List<String> getPhotoList()
     {
