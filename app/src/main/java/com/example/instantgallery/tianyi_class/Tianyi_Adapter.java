@@ -1,6 +1,7 @@
 package com.example.instantgallery.tianyi_class;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +12,25 @@ import com.bumptech.glide.Glide;
 import com.example.instantgallery.R;
 
 import java.io.File;
+import java.net.URI;
 import java.util.List;
 
 public class Tianyi_Adapter extends BaseAdapter
 {
     public static final String TAG = "My";
     private final Context mContext;
-    private final List<String> photoPathList;
+    List<String> photoPathList;
     private ViewHolder myViewHolder;
-
+    public Uri uri;
     public Tianyi_Adapter(Context context, List<String> photoPathList)
     {
+
         this.mContext = context;
         this.photoPathList = photoPathList;
+        
     }
+
+
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -83,7 +89,16 @@ public class Tianyi_Adapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+
         File f = new File(photoPathList.get(position));
+        uri = Uri.parse(f.toString());
+
+
+        /*
+        * Todo
+        *  [√]use photoPathList.get(position) to get path
+        *  [ ]and load path to Bitmap in Tianyi_Single_Image_View
+        * */
 
         if (null == convertView)
         {
@@ -95,8 +110,13 @@ public class Tianyi_Adapter extends BaseAdapter
 
         if (f.exists())
         {
+
             //myViewHolder.myImageView.setImageURI(Uri.fromFile(f));
             Glide.with(mContext).load(photoPathList.get(position)).into(myViewHolder.myImageView);
+
+            Log.i(TAG, "f is " + f.getClass().getName() + "type");
+
+
         }
         else
         {
@@ -106,6 +126,11 @@ public class Tianyi_Adapter extends BaseAdapter
         return convertView;
 
 
+    }
+
+    public String getPhotoPathById(int id)
+    {
+        return photoPathList.get(id);
     }
 
     public class ViewHolder
