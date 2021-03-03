@@ -22,16 +22,6 @@ public class TianyiUtils
     //Tianyi's            request read file permission
     public void requestPermissions(MainActivity mainActivity)
     {
-        if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            Log.i(MainActivity.TAG, "no READ_EXTERNAL_STORAGE" + Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            Log.i(MainActivity.TAG, "no Write_EXTERNAL_STORAGE" + Manifest.permission.READ_EXTERNAL_STORAGE);
-            ActivityCompat.requestPermissions(mainActivity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
 
     }
 

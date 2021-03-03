@@ -2,11 +2,15 @@ package com.example.instantgallery;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -83,12 +87,23 @@ public class MainActivity extends AppCompatActivity
 
         //Tianyi's
         myUtils = new TianyiUtils();
-        myUtils.requestPermissions(this);
-        myUtils.getSystemPhoto(this, this);
+//        myUtils.requestPermissions(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            Log.i(MainActivity.TAG, "no READ_EXTERNAL_STORAGE" + Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        else
+        {
+            myUtils.getSystemPhoto(this, this);
 
-        gridView = findViewById(R.id.gv_gallery_overview);
-        myAdapter = new Tianyi_Adapter(this, photoList);
-        gridView.setAdapter(myAdapter);
+            gridView = findViewById(R.id.gv_gallery_overview);
+            myAdapter = new Tianyi_Adapter(this, photoList);
+            gridView.setAdapter(myAdapter);
+        }
+
+
+
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
