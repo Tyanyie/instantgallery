@@ -18,13 +18,6 @@ import com.example.instantgallery.MainActivity;
 
 public class TianyiUtils
 {
-
-    //Tianyi's            request read file permission
-    public void requestPermissions(MainActivity mainActivity)
-    {
-
-    }
-
     //Tianyi's              get photos from device storage
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getSystemPhoto(ContextWrapper contextWrapper, MainActivity mainActivity)
