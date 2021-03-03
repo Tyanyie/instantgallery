@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -12,8 +13,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +33,11 @@ import com.example.instantgallery.tianyi_class.Tianyi_Adapter;
 import com.example.instantgallery.tianyi_class.Tianyi_Single_Image_View;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.instantgallery.R.layout.activity_main;
@@ -52,9 +60,47 @@ public class MainActivity extends AppCompatActivity
     //Robert's variables
     public boolean nightmode = false;
     private ImageView imageView;
-
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    String currentPhotoPath;
     private final List<String> photoList = new ArrayList<>();
-    private final int picCount = 1; // Prevent access to array indexes as pics are deleted
+
+
+    public void capturePhoto()
+    {
+        Intent capPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (capPhoto.resolveActivity(getPackageManager()) != null)
+        {
+            File photoFile = null;
+            try
+            {
+                photoFile = createImageFile();
+            }
+            catch (IOException ex)
+            {
+
+            }
+
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                capPhoto.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(capPhoto, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageName = "JPEG_" + timeStamp + "_";
+        File sDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageName, ".jpg", sDir);
+
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 
     //Robert's
     @Override
@@ -179,38 +225,9 @@ public class MainActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
-            /*
-             * Todo
-             *  Hi Robert, you might need to adjust your code with our approach to
-             *  accessing photos on the user's phone rather than read photos from drawables
-             * */
-            /*
-            case R.id.deletePic:
-                if (picCount == pictures.length)
-                {
-                    imageView.setImageResource(0);
-                    return true;
-                }
-                // If deleting last image
-                if (currentPosition == pictures.length - picCount)
-                {
-                    imageView.setImageResource(0);
-                    picCount++;
-                    return true;
-                }
-                // If deleting an image (that is not last)
-                for (int i = currentPosition; i <= pictures.length - picCount; i++)
-                {
-                    if (i != pictures.length - picCount)
-                    {
-                        pictures[i] = pictures[i + 1];
-                        imageView.setImageResource(pictures[currentPosition]);
-                    }
-                }
-                picCount++;
-                return true;
-
-             */
+            case R.id.takePic:
+                capturePhoto();
+                break;
             case R.id.nightMode:
                 if (!nightmode)
                 {
