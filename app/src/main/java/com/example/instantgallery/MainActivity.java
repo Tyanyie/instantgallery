@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -30,6 +31,7 @@ import com.example.instantgallery.Bruce_class.CreatePasswordActivity;
 import com.example.instantgallery.Bruce_class.LoadingActivity;
 import com.example.instantgallery.tianyi_class.TianyiUtils;
 import com.example.instantgallery.tianyi_class.Tianyi_Adapter;
+import com.example.instantgallery.tianyi_class.Tianyi_ImageView;
 import com.example.instantgallery.tianyi_class.Tianyi_Single_Image_View;
 
 
@@ -50,21 +52,29 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_1 = "Robert_Debug_Info";
     public static final String TAG_2 = "Bruce_Debug_Info";
     public static final String TAG_3 = "Ssu_Ting_Debug_Info";
+    /*   ---------------------------------------------------------------------------- */
     //Tianyi Zhou's variables
     public static final int RESULT_CODE = 3;
-    private GridView gridView;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private final List<String> photoList = new ArrayList<>();
     private Tianyi_Adapter myAdapter;
     private TianyiUtils myUtils;
-
+    private float startX, endX;
+    private final float distance = 100;
+    private int currentPosition = 0;
+    private Tianyi_ImageView imageView;
+    private Tianyi_Adapter tianyi_adapter;
+    /*   ---------------------------------------------------------------------------- */
+    //Bruce's variables
+    private final boolean login = false;
     /*   ---------------------------------------------------------------------------- */
     //Robert's variables
     public boolean nightmode = false;
-    private ImageView imageView;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
     String currentPhotoPath;
-    private final List<String> photoList = new ArrayList<>();
+    private GridView gridView;
 
 
+    /*   ---------------------------------------------------------------------------- */
     public void capturePhoto()
     {
         Intent capPhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -75,13 +85,13 @@ public class MainActivity extends AppCompatActivity
             try
             {
                 photoFile = createImageFile();
-            }
-            catch (IOException ex)
+            } catch (IOException ex)
             {
 
             }
 
-            if (photoFile != null) {
+            if (photoFile != null)
+            {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
@@ -91,7 +101,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private File createImageFile() throws IOException {
+    private File createImageFile() throws IOException
+    {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageName = "JPEG_" + timeStamp + "_";
@@ -109,9 +120,47 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
-    /*   ---------------------------------------------------------------------------- */
-    //Bruce's variables
-    private final boolean login = false;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        switch (event.getAction())
+        {
+
+            case MotionEvent.ACTION_DOWN:
+                startX = event.getRawX();
+                Log.i(TAG, "Action Down");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.i(TAG, "Action Move");
+                break;
+            case MotionEvent.ACTION_UP:
+                endX = event.getRawX();
+                if ((endX - startX) >= distance)
+                {
+                    //last picture
+                    currentPosition--;
+
+                    if (currentPosition < 0)
+                    {
+                        currentPosition = tianyi_adapter.getPhotoLength(photoList) - 1;
+                    }
+                    // TODO: 2021/3/3
+                    imageView.setImageURI();
+                }
+                else if((startX - endX) >= distance)
+                {
+                    currentPosition ++;
+                    if (currentPosition > tianyi_adapter.getPhotoLength(photoList))
+                    {
+                        currentPosition = 0;
+                    }
+                    // TODO: 2021/3/3
+                    imageView.setImageResource();
+                }
+        }
+        return super.onTouchEvent(event);
+    }
 
     //everyone shared area
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -131,9 +180,11 @@ public class MainActivity extends AppCompatActivity
         }
         */
 
+        /*   ---------------------------------------------------------------------------- */
         //Tianyi's
         myUtils = new TianyiUtils();
-//        myUtils.requestPermissions(this);
+        imageView = findViewById(R.id.single_image);
+        //asks for storage permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         {
             Log.i(MainActivity.TAG, "no READ_EXTERNAL_STORAGE" + Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -147,9 +198,6 @@ public class MainActivity extends AppCompatActivity
             myAdapter = new Tianyi_Adapter(this, photoList);
             gridView.setAdapter(myAdapter);
         }
-
-
-
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -166,7 +214,6 @@ public class MainActivity extends AppCompatActivity
         });
 
         /*----------------------------------------------------------------------*/
-
     }
 
 
@@ -174,49 +221,9 @@ public class MainActivity extends AppCompatActivity
     {
         return photoList;
     }
+
     //Tianyi's area, debugging
- /*
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        switch (event.getAction())
-        {
-            case MotionEvent.ACTION_DOWN:
-                startX = event.getRawX();
-                Log.i(TAG,"Action Down");
-                break;
-            case MotionEvent.ACTION_MOVE:
 
-                break;
-            case MotionEvent.ACTION_UP:
-                endX = event.getRawX();
-
-                if (picCount != pictures.length) { // Added for delete functionality
-                if ((endX - startX) >= distance)
-                {
-                    //last picture
-                    currentPosition --;
-                    if (currentPosition < 0)
-                    {
-                        currentPosition = pictures.length-picCount; // picCount replaced 1
-                    }
-                }
-                else if (startX - endX >= distance)
-                {
-                    currentPosition ++;
-                    if (currentPosition > pictures.length-picCount) // picCount replaced 1
-                    {
-                        //if overflow then reset to 0
-                        currentPosition = 0;
-                    }
-                }
-                imageView.setImageResource(pictures[currentPosition]);
-                Log.i(TAG,"Action Up");
-                }
-        }
-        return super.onTouchEvent(event);
-    }
-*/
 
 
     //Robert's
@@ -242,11 +249,11 @@ public class MainActivity extends AppCompatActivity
                     nightmode = false;
                 }
                 break;
-                //return true;
+            //return true;
             case R.id.copy:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 Intent appIntent = new Intent();
-                ClipData clip = ClipData.newIntent("Intent",appIntent);
+                ClipData clip = ClipData.newIntent("Intent", appIntent);
 
         }
         return true;
